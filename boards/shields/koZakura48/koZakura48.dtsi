@@ -88,34 +88,34 @@
         label = "KSCAN";
         diode-direction = "col2row";
             row-gpios
-                = <&xiao_d 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
-                , <&gpio0 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  //gptにきいてD~から実GPIO指定に変更
-                , <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
-                , <&gpio0 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 			
+                = <&gpio0 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
+                , <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  //gptにきいてD~から実GPIO指定に変更
+                , <&gpio0 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
+                , <&xiao_d 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 			
                 ;
             col-gpios
-                = <&xiao_d 10 GPIO_ACTIVE_HIGH>
-                , <&gpio1 7 GPIO_ACTIVE_HIGH> 
-                , <&xiao_d 9 GPIO_ACTIVE_HIGH> 
-                , <&gpio1 5 GPIO_ACTIVE_HIGH> 
-                , <&xiao_d 8 GPIO_ACTIVE_HIGH>
-                , <&gpio1 3 GPIO_ACTIVE_HIGH>
-                , <&xiao_d 7 GPIO_ACTIVE_HIGH>
+                = <&xiao_d 5 GPIO_ACTIVE_HIGH>
+                , <&gpio0 10  GPIO_ACTIVE_HIGH> 
+                , <&xiao_d 4 GPIO_ACTIVE_HIGH> 
+                , <&gpio0 9 GPIO_ACTIVE_HIGH> 
+                , <&xiao_d 3 GPIO_ACTIVE_HIGH>
+                , <&gpio1 1 GPIO_ACTIVE_HIGH>
+                , <&xiao_d 2 GPIO_ACTIVE_HIGH>
                 ;
     };
 
     left_encoder: encoder_left {
         compatible = "alps,ec11";
-        a-gpios = <&xiao_d 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-        b-gpios = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        a-gpios = <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        b-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
         steps = <24>;
         status = "disabled";
     };
 
     right_encoder: encoder_right {
         compatible = "alps,ec11"; //お試し追加
-        a-gpios = <&xiao_d 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; //お試し追加
-        b-gpios = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; //お試し追加
+        a-gpios = <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; //お試し追加
+        b-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; //お試し追加
         steps = <24>; //お試し追加
         status = "disabled";
     };
