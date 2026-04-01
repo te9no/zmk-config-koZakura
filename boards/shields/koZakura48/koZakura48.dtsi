@@ -107,7 +107,7 @@
     left_encoder: encoder_left {
         compatible = "alps,ec11";
         a-gpios = <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-        b-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        b-gpios = <&gpio1 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; //P1.07と逆だったっぽい？
         steps = <24>;
         status = "disabled";
     };
@@ -115,7 +115,7 @@
     right_encoder: encoder_right {
         compatible = "alps,ec11"; //お試し追加
         a-gpios = <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; //お試し追加
-        b-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; //お試し追加
+        b-gpios = <&gpio1 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; //お試し追加。P1.07と逆だったっぽい？
         steps = <24>; //お試し追加
         status = "disabled";
     };

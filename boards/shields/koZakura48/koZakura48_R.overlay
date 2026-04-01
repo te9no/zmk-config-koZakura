@@ -31,7 +31,7 @@
     pinctrl-0 = <&spi0_default>;
     pinctrl-1 = <&spi0_sleep>;
     pinctrl-names = "default", "sleep";
-    cs-gpios = <&gpio1 3 GPIO_ACTIVE_LOW>;
+    cs-gpios = <&gpio1 7 GPIO_ACTIVE_LOW>; //P1.03とチェンジ
 
     trackball_peripheral: trackball_peripheral@0 {
         status = "okay";
@@ -40,7 +40,6 @@
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio1 5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
         cpi = <600>;
-        invert-x;//お試し追加。x軸反転
         evt-type = <INPUT_EV_REL>;
         x-input-code = <INPUT_REL_X>;
         y-input-code = <INPUT_REL_Y>;
