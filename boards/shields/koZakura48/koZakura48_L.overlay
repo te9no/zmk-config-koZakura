@@ -47,9 +47,9 @@
     };
 };
 
-&right_encoder {
+&left_encoder {
     status = "okay";
-}; //gptにきいて;を足しました
+};
 
 // Overrides for the input listener node
 &trackball_central_listener {
