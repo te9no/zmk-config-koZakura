@@ -43,7 +43,7 @@
         cpi = <600>; //gptにきいてコメントアウト（conf内にcpiの記載あり）
         //swap-xy;
         invert-x; //お試し
-        invert-y; //お試し
+        //invert-y; //お試し
         evt-type = <INPUT_EV_REL>;
         x-input-code = <INPUT_REL_X>;
         y-input-code = <INPUT_REL_Y>;
