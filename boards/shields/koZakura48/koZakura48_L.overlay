@@ -42,8 +42,8 @@
         irq-gpios = <&gpio1 5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; //P1.05を指定(MOTION)
         cpi = <600>; //gptにきいてコメントアウト（conf内にcpiの記載あり）
         //swap-xy;
-        invert-x; //お試し
-        //invert-y; //お試し
+        //invert-x; //お試し
+        invert-y; //お試し
         evt-type = <INPUT_EV_REL>;
         x-input-code = <INPUT_REL_X>;
         y-input-code = <INPUT_REL_Y>;
