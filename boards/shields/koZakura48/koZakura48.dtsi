@@ -135,7 +135,7 @@
         device = <&trackball_peripheral_split>;
         input-processors = 
             <&zip_xy_transform INPUT_TRANSFORM_XY_SWAP>
-            , <&mouse_runtime_input_processor_l>
+            , <&mouse_runtime_input_processor_r>
             //<&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>;
             ;
     };
@@ -146,7 +146,7 @@
         status = "disabled";
         input-processors =
             <&zip_xy_transform INPUT_TRANSFORM_XY_SWAP>
-            , <&mouse_runtime_input_processor_r>
+            , <&mouse_runtime_input_processor_l>
             ;
     };
 
