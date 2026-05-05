@@ -1,17 +1,17 @@
 #include "koZakura48.dtsi"
 #include <input/processors.dtsi>
+#include <zephyr/dt-bindings/input/input-event-codes.h>
 
-//追加文
 &pinctrl {
-    spi0_default: spi0_default {    //通常時(SPI通信中)のピン構成
+    spi0_default: spi0_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 1, 15)>, //P1.15を指定(SCLK)
-                <NRF_PSEL(SPIM_MOSI, 1, 14)>,    //P1.14を指定(SDIOだからMOSI,MISO両方の役割を担う)
+            psels = <NRF_PSEL(SPIM_SCK, 1, 15)>,
+                <NRF_PSEL(SPIM_MOSI, 1, 14)>,
                 <NRF_PSEL(SPIM_MISO, 1, 14)>;
         };
     };
 
-    spi0_sleep: spi0_sleep {    //スリープ時のピン構成(省電力)
+    spi0_sleep: spi0_sleep {
         group1 {
             psels = <NRF_PSEL(SPIM_SCK, 1, 15)>,
                 <NRF_PSEL(SPIM_MOSI, 1, 14)>,
@@ -25,25 +25,21 @@
     status = "okay";
 };
 
-#include <zephyr/dt-bindings/input/input-event-codes.h>
 &spi0 {
     status = "okay";
-    compatible = "nordic,nrf-spim"; //マイコンがnRFシリーズ
+    compatible = "nordic,nrf-spim";
     pinctrl-0 = <&spi0_default>;
     pinctrl-1 = <&spi0_sleep>;
     pinctrl-names = "default", "sleep";
-    cs-gpios = <&gpio1 7 GPIO_ACTIVE_LOW>;  //P1.07を指定(CS)P1.03と逆っぽい？
+    cs-gpios = <&gpio1 7 GPIO_ACTIVE_LOW>;
 
     trackball_central: trackball_central@0 {
         status = "okay";
-        compatible = "pixart,pmw3610";  //トラボセンサ用のドライバとバインド
+        compatible = "pixart,pmw3610";
         reg = <0>;
         spi-max-frequency = <2000000>;
-        irq-gpios = <&gpio1 5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; //P1.05を指定(MOTION)
-        cpi = <600>; //gptにきいてコメントアウト（conf内にcpiの記載あり）
-        //swap-xy;
-        //invert-x; //お試し
-        invert-y; //お試し
+        irq-gpios = <&gpio1 5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+        cpi = <600>;
         evt-type = <INPUT_EV_REL>;
         x-input-code = <INPUT_REL_X>;
         y-input-code = <INPUT_REL_Y>;
@@ -54,7 +50,6 @@
     status = "okay";
 };
 
-// Overrides for the input listener node
 &trackball_central_listener {
     status = "okay";
     device = <&trackball_central>;

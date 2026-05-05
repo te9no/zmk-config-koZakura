@@ -1,7 +1,7 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 #include <input/processors.dtsi>
 #include <dt-bindings/zmk/input_transform.h>
-#include <physical_layouts.dtsi> //動作確認だめなら消す
+#include <physical_layouts.dtsi>
 
 / {
     chosen {
@@ -69,7 +69,6 @@
             , <&key_physical_attrs 100 100 1550  300       0     0     0>
             ;
     };
-// だめなら10-73行目を削除し、コメントアウトをもとに戻す
 
     default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
@@ -89,7 +88,7 @@
         diode-direction = "col2row";
             row-gpios
                 = <&gpio0 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
-                , <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  //gptにきいてD~から実GPIO指定に変更
+                , <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
                 , <&gpio0 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
                 , <&xiao_d 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 			
                 ;
@@ -107,20 +106,19 @@
     left_encoder: encoder_left {
         compatible = "alps,ec11";
         a-gpios = <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-        b-gpios = <&gpio1 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; //P1.07と逆だったっぽい？
+        b-gpios = <&gpio1 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
         steps = <24>;
         status = "disabled";
     };
 
     right_encoder: encoder_right {
-        compatible = "alps,ec11"; //お試し追加
-        a-gpios = <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; //お試し追加
-        b-gpios = <&gpio1 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; //お試し追加。P1.07と逆だったっぽい？
-        steps = <24>; //お試し追加
+        compatible = "alps,ec11";
+        a-gpios = <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        b-gpios = <&gpio1 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        steps = <24>;
         status = "disabled";
     };
 
-  //right hand trackball　mona2ファームにtweakbitトラボファームをお試し移植
     split_inputs {
         #address-cells = <1>;
         #size-cells = <0>;
@@ -136,11 +134,10 @@
         status = "disabled";
         device = <&trackball_peripheral_split>;
         input-processors = 
-            <&zip_xy_transform INPUT_TRANSFORM_XY_SWAP>,        //this gets it to the default installation orientation
-            <&zip_xy_scaler 1 7>,                               //感度を1/7倍に変更(スクロールが遅くなる)
-            <&zip_xy_to_scroll_mapper>;                         //スクロールモードに変更
-            //<&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>;   //invert vertical scrolling so that the view moves in the same direction as the top of the trackball.
-       
+            <&zip_xy_transform INPUT_TRANSFORM_XY_SWAP>
+            , <&mouse_runtime_input_processor_l>
+            //<&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>;
+            ;
     };
     
     //left hand trackball
@@ -148,13 +145,62 @@
         compatible = "zmk,input-listener";
         status = "disabled";
         input-processors =
-            <&zip_xy_transform INPUT_TRANSFORM_XY_SWAP>;       //this gets it to the default installation orientation
-            //<&zip_temp_layer 5 500>,                         //オートマウスレイヤーの選択
+            <&zip_xy_transform INPUT_TRANSFORM_XY_SWAP>
+            , <&mouse_runtime_input_processor_r>
+            ;
     };
 
     sensors: sensors {
         compatible = "zmk,keymap-sensors";
         sensors = <&left_encoder &right_encoder>;
         triggers-per-rotation = <10>;
-      };
     };
+      
+   aliases {
+      led-red = &led0;
+      led-green = &led1;
+      led-blue = &led2;
+   };
+
+   leds {
+        compatible = "gpio-leds";
+        status = "okay";
+        led0: led_0 {
+        gpios = <&gpio0 26 GPIO_ACTIVE_LOW>;  // red LED, connected to P0.26
+        };
+        led1: led_1 {
+        gpios = <&gpio0 30 GPIO_ACTIVE_LOW>;  // green LED, connected to P0.30
+        };
+        led2: led_2 {
+        gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;  // blue LED, connected to P0.06
+        };
+    };
+
+    mouse_runtime_input_processor_l: mouse_runtime_input_processor_l {
+		compatible = "zmk,input-processor-runtime";
+        processor-label = "MouseL";
+		type = <INPUT_EV_REL>;
+		track-remainders;
+		scale-divisor = <60>;
+		#input-processor-cells = <0>;
+	};   
+
+    mouse_runtime_input_processor_r: mouse_runtime_input_processor_r {
+		compatible = "zmk,input-processor-runtime";
+        processor-label = "MouseR";
+		type = <INPUT_EV_REL>;
+		track-remainders;
+		scale-divisor = <60>;
+		#input-processor-cells = <0>;
+	};   
+};
+
+&mouse_runtime_input_processor_l {
+        x-codes = <INPUT_REL_X>;
+        y-codes = <INPUT_REL_Y>;
+};
+
+&mouse_runtime_input_processor_r {
+        x-codes = <INPUT_REL_X>;
+        y-codes = <INPUT_REL_Y>;
+};
